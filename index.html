@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSpace – AI Mental Health Therapist</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">🧠</span>
+      <span class="brand-name">SafeSpace</span>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+    </div>
+
+    <p class="sidebar-tagline">AI Mental Health Support</p>
+
+    <hr class="divider" />
+
+    <section class="about-section">
+      <h2>About</h2>
+      <p>
+        SafeSpace is an AI-powered mental health chatbot designed to provide
+        supportive conversations and emotional guidance. You are never alone.
+      </p>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="crisis-section">
+      <h2>In Crisis?</h2>
+      <p>If you are in immediate danger, please reach out:</p>
+      <ul>
+        <li>🆘 <strong>Emergency:</strong> 911</li>
+        <li>📞 <strong>Crisis Line:</strong> 988</li>
+        <li>💬 <strong>Crisis Text:</strong> Text HOME to 741741</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <div class="sidebar-actions">
+      <button class="btn btn-outline" id="themeToggle" aria-label="Toggle dark/light mode">
+        <span id="themeIcon">🌙</span> Dark Mode
+      </button>
+      <button class="btn btn-danger" id="clearChat" aria-label="Clear chat history">
+        🗑 Clear Chat
+      </button>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Open sidebar">☰</button>
+      <div class="topbar-title">
+        <span class="topbar-logo">🧠</span>
+        <span>SafeSpace AI Therapist</span>
+      </div>
+      <div class="topbar-right">
+        <span class="status-dot"></span>
+        <span class="status-label">Online</span>
+      </div>
+    </header>
+
+    <!-- Chat Area -->
+    <main class="chat-container" id="chatContainer" aria-live="polite" aria-label="Chat messages">
+      <!-- Welcome message rendered by JS -->
+    </main>
+
+    <!-- Input Area -->
+    <footer class="input-area">
+      <div class="input-wrapper">
+        <textarea
+          id="userInput"
+          class="message-input"
+          placeholder="What's on your mind today?"
+          rows="1"
+          maxlength="2000"
+          aria-label="Type your message"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Send message">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+      <p class="input-note">SafeSpace is an AI assistant and not a substitute for professional mental health care.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
