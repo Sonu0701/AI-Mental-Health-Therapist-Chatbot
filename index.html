@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeSpace – AI Mental Health Therapist</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <span class="brand-icon" aria-hidden="true">🧠</span>
+        <span class="brand-name">SafeSpace</span>
+      </div>
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        aria-label="Toggle dark/light mode"
+        title="Toggle theme"
+      >
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+      <button
+        class="nav-btn active"
+        id="navChat"
+        aria-label="Go to chat"
+        aria-pressed="true"
+        onclick="switchView('chat')"
+      >
+        💬 Chat
+      </button>
+      <button
+        class="nav-btn"
+        id="navDashboard"
+        aria-label="Go to mood dashboard"
+        aria-pressed="false"
+        onclick="switchView('dashboard')"
+      >
+        📊 Mood Dashboard
+      </button>
+    </nav>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-section-title">About</h3>
+      <p class="sidebar-about-text">
+        SafeSpace is an AI-powered mental health chatbot designed to provide supportive
+        conversations and emotional guidance.
+      </p>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-section-title">Quick Actions</h3>
+      <button
+        class="sidebar-action-btn"
+        id="breathingBtn"
+        aria-label="Open breathing exercise"
+        onclick="openBreathingModal()"
+      >
+        🫁 Breathing Exercise
+      </button>
+      <button
+        class="sidebar-action-btn danger"
+        id="clearAllBtn"
+        aria-label="Clear all data"
+        onclick="clearAll()"
+      >
+        🗑 Clear All Data
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>SafeSpace AI Therapist</p>
+      <p>Built with 💙 for mental wellness</p>
+    </div>
+  </aside>
+
+  <!-- Mobile header -->
+  <header class="mobile-header" aria-label="Mobile navigation header">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+      ☰
+    </button>
+    <span class="mobile-brand">🧠 SafeSpace</span>
+    <button class="mobile-theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+      <span id="mobileThemeIcon">🌙</span>
+    </button>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-content" id="mainContent" role="main">
+
+    <!-- ===================== CHAT VIEW ===================== -->
+    <section class="view chat-view" id="chatView" aria-label="Chat interface">
+      <div class="view-header">
+        <h1 class="view-title">
+          <span aria-hidden="true">🧠</span> SafeSpace – AI Mental Health Therapist
+        </h1>
+        <p class="view-subtitle">A safe place to share your thoughts 💙</p>
+      </div>
+
+      <!-- Quick Mood Buttons -->
+      <div class="quick-mood-bar" role="region" aria-label="Quick mood logging">
+        <span class="quick-mood-label">How are you feeling?</span>
+        <div class="quick-mood-buttons" role="group" aria-label="Mood selection buttons">
+          <button class="mood-quick-btn" aria-label="Log happy mood" onclick="quickLogMood('happy', '😊', 'Happy')">😊</button>
+          <button class="mood-quick-btn" aria-label="Log neutral mood" onclick="quickLogMood('neutral', '😐', 'Neutral')">😐</button>
+          <button class="mood-quick-btn" aria-label="Log sad mood" onclick="quickLogMood('sad', '😔', 'Sad')">😔</button>
+          <button class="mood-quick-btn" aria-label="Log anxious mood" onclick="quickLogMood('anxious', '😰', 'Anxious')">😰</button>
+          <button class="mood-quick-btn" aria-label="Log frustrated mood" onclick="quickLogMood('frustrated', '😤', 'Frustrated')">😤</button>
+          <button class="mood-quick-btn" aria-label="Log tired mood" onclick="quickLogMood('tired', '😴', 'Tired')">😴</button>
+        </div>
+        <div class="mood-feedback" id="moodFeedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <!-- Messages area -->
+      <div class="messages-area" id="messagesArea" role="log" aria-label="Chat messages" aria-live="polite">
+        <div class="welcome-message">
+          <div class="welcome-icon" aria-hidden="true">🧠</div>
+          <h2>Welcome to SafeSpace</h2>
+          <p>I'm here to listen and support you. Feel free to share what's on your mind.</p>
+          <p class="welcome-hint">You can also log your mood using the buttons above.</p>
+        </div>
+      </div>
+
+      <!-- Chat input area -->
+      <div class="chat-input-area" role="form" aria-label="Message input form">
+        <div class="input-wrapper">
+          <textarea
+            class="chat-input"
+            id="chatInput"
+            placeholder="What's on your mind today?"
+            aria-label="Type your message"
+            rows="1"
+            maxlength="2000"
+          ></textarea>
+          <button
+            class="send-btn"
+            id="sendBtn"
+            aria-label="Send message"
+            onclick="sendMessage()"
+          >
+            <span aria-hidden="true">➤</span>
+          </button>
+        </div>
+        <p class="input-hint">Press Enter to send, Shift+Enter for new line</p>
+      </div>
+    </section>
+
+    <!-- ===================== DASHBOARD VIEW ===================== -->
+    <section class="view dashboard-view hidden" id="dashboardView" aria-label="Mood dashboard">
+      <div class="view-header">
+        <h1 class="view-title">
+          <span aria-hidden="true">📊</span> Mood Tracking Dashboard
+        </h1>
+        <p class="view-subtitle">Track your emotional wellbeing over time 🌱</p>
+      </div>
+
+      <!-- Mood entry form -->
+      <div class="mood-entry-card" role="region" aria-label="Log a new mood">
+        <h2 class="card-title">How are you feeling right now?</h2>
+        <div class="mood-selector" role="group" aria-label="Select your current mood">
+          <button class="mood-select-btn" data-mood="happy" data-emoji="😊" data-label="Happy" aria-label="Happy" onclick="selectMood(this)">
+            <span class="mood-emoji">😊</span>
+            <span class="mood-label">Happy</span>
+          </button>
+          <button class="mood-select-btn" data-mood="neutral" data-emoji="😐" data-label="Neutral" aria-label="Neutral" onclick="selectMood(this)">
+            <span class="mood-emoji">😐</span>
+            <span class="mood-label">Neutral</span>
+          </button>
+          <button class="mood-select-btn" data-mood="sad" data-emoji="😔" data-label="Sad" aria-label="Sad" onclick="selectMood(this)">
+            <span class="mood-emoji">😔</span>
+            <span class="mood-label">Sad</span>
+          </button>
+          <button class="mood-select-btn" data-mood="anxious" data-emoji="😰" data-label="Anxious" aria-label="Anxious" onclick="selectMood(this)">
+            <span class="mood-emoji">😰</span>
+            <span class="mood-label">Anxious</span>
+          </button>
+          <button class="mood-select-btn" data-mood="frustrated" data-emoji="😤" data-label="Frustrated" aria-label="Frustrated" onclick="selectMood(this)">
+            <span class="mood-emoji">😤</span>
+            <span class="mood-label">Frustrated</span>
+          </button>
+          <button class="mood-select-btn" data-mood="tired" data-emoji="😴" data-label="Tired" aria-label="Tired" onclick="selectMood(this)">
+            <span class="mood-emoji">😴</span>
+            <span class="mood-label">Tired</span>
+          </button>
+        </div>
+        <button class="log-mood-btn" id="logMoodBtn" aria-label="Save mood entry" onclick="logMoodFromDashboard()" disabled>
+          Log Mood
+        </button>
+      </div>
+
+      <!-- Statistics -->
+      <div class="mood-stats-grid" role="region" aria-label="Mood statistics">
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">📅</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTodayMood">—</div>
+            <div class="stat-label">Most Frequent Today</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">📈</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotalEntries">0</div>
+            <div class="stat-label">Total Entries</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">🏆</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTopMood">—</div>
+            <div class="stat-label">Overall Top Mood</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" aria-hidden="true">🕐</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statLastEntry">—</div>
+            <div class="stat-label">Last Entry</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mood history -->
+      <div class="mood-history-card" role="region" aria-label="Mood history">
+        <div class="card-header">
+          <h2 class="card-title">Mood History</h2>
+          <span class="entry-count" id="moodEntryCount">0 entries</span>
+        </div>
+        <div class="mood-history-list" id="moodHistoryList" role="list" aria-label="List of mood entries">
+          <div class="empty-state">
+            <span aria-hidden="true">🌟</span>
+            <p>No mood entries yet. Log your first mood above!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sidebar overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- ===================== BREATHING MODAL ===================== -->
+  <div class="modal-backdrop" id="breathingModal" role="dialog" aria-modal="true" aria-label="Breathing exercise" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">🫁 Breathing Exercise</h2>
+        <button class="modal-close" aria-label="Close breathing exercise" onclick="closeBreathingModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="breathing-technique">4-7-8 Breathing Technique</p>
+
+        <div class="breathing-visual" role="img" aria-label="Animated breathing guide">
+          <div class="breathing-circle" id="breathingCircle">
+            <span class="breathing-count" id="breathingCount"></span>
+          </div>
+        </div>
+
+        <p class="breathing-instruction" id="breathingInstruction">Press Start to begin</p>
+        <p class="breathing-phase" id="breathingPhase"></p>
+
+        <div class="breathing-progress">
+          <span id="breathingCycleCount">Cycle: 0 / 5</span>
+          <span id="breathingTimeLeft"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button class="breathing-start-btn" id="breathingStartBtn" onclick="startBreathing()">
+            ▶ Start
+          </button>
+          <button class="breathing-stop-btn" id="breathingStopBtn" onclick="stopBreathing()" style="display:none">
+            ⏹ Stop
+          </button>
+        </div>
+
+        <div class="breathing-tips">
+          <p><strong>How it works:</strong></p>
+          <ul>
+            <li>🌬 Breathe in for <strong>4</strong> seconds</li>
+            <li>⏸ Hold for <strong>7</strong> seconds</li>
+            <li>💨 Breathe out for <strong>8</strong> seconds</li>
+          </ul>
+          <p class="tip-note">Repeat 5 cycles for best results. This technique helps reduce anxiety and promotes relaxation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
